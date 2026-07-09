@@ -1,5 +1,7 @@
 .main{
     background-color: grey;
+    /* background-image: url(../assets/to\ do\ app\ background.jfif); */
+    /* background: radial-gradient(yellow, purple, pink, green); */
     width: 100%;
     height: 100vh;
     display: flex;
@@ -33,4 +35,10 @@
     this will change the size of the checkbox */
     /* this is alternate method to change the size of the checkbox. */
     transform: scale(1.5);
+}
+
+
+.icons{
+    cursor: pointer;
+    font-size: 17px;
 }

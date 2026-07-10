@@ -1,5 +1,5 @@
 // import React from "react"; (we do not need to write this here because we are using react vite.)
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import TodoCss from "./todo.module.css";
 import toast from "react-hot-toast";
 
@@ -23,6 +23,8 @@ const Todo = () => {
   const [search, setSearch] = useState("");
   const [CTask, setCtask] = useState(0);
   const [RTask, setRtask] = useState(0);
+  const BgColor = useRef()
+
 
   function handleForm(e) {
     e.preventDefault();
@@ -83,7 +85,18 @@ const Todo = () => {
     const copyOfAllData = [...allData];
     const oldTask = copyOfAllData[id].task;
     const newTask = prompt(`Update Task :- ${oldTask}`, oldTask); // comma ke baad oldTask likhne se ye prompt wale box me bhi likha hua aayega.
-    const newTaskObj = { task: newTask, complete: false };
+
+    if (newTask === null) {
+      toast("Update Cancelled...❌");
+      return;
+    }
+
+    let trimmedTask = newTask.trim();
+
+    if (trimmedTask.toLowerCase() === oldTask.toLowerCase()) {
+      toast("No Changes Detected...😑");
+    }
+    const newTaskObj = { task: trimmedTask, complete: false };
     copyOfAllData.splice(id, 1, newTaskObj); // revise this
     setAllData(copyOfAllData);
   }
@@ -109,10 +122,25 @@ const Todo = () => {
     localStorage.setItem("todo_task", JSON.stringify(copyOfAllData));
   }, [allData]);
 
+  function handleDarkMode(){
+    const bodyBg = BgColor.current.style.backgroundColor
+    
+    if(bodyBg==="" || bodyBg==="white"){
+      BgColor.current.style.backgroundColor = "black"
+      BgColor.current.style.color = "white"
+    }else{
+      BgColor.current.style.backgroundColor = "white"
+      BgColor.current.style.color = "black"
+    }
+  }
+
   return (
-    <div className={TodoCss.main}>
+    <div className={TodoCss.main} ref={BgColor}>
       <div>
-        <h1>MY TO-DO APP 📋</h1>
+        <h1 className="fw-bolder">MY TO-DO APP 📋</h1>
+        <div className="d-flex justify-content-center mt-1 mb-2">
+          <i className={`bi bi-lightbulb fs-2 ${TodoCss.darkicon}`} onClick={handleDarkMode}><span className="fs-4 fw-bold"> Change Mode </span></i>
+        </div>
         <div className={TodoCss.task}>
           <form action="" onSubmit={handleForm}>
             {/* Task add */}

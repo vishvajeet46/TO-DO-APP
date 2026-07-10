@@ -1,5 +1,5 @@
 .main{
-    background-color: grey;
+    /* background-color: grey; */
     /* background-image: url(../assets/to\ do\ app\ background.jfif); */
     /* background: radial-gradient(yellow, purple, pink, green); */
     width: 100%;
@@ -23,6 +23,10 @@
 .alltask{
     font-size: 17px;
     font-weight: bold;
+    padding: 1rem;
+    background-color: rgba(74, 74, 74, 0.5);
+    border-radius: 10px;
+    margin: 10px;
 }
 
 .checkbox{
@@ -41,4 +45,8 @@
 .icons{
     cursor: pointer;
     font-size: 17px;
+}
+
+.darkicon{
+    cursor: pointer;
 }

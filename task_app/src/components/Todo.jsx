@@ -1,25 +1,13 @@
-// import React from "react"; (we do not need to write this here because we are using react vite.)
 import { use, useEffect, useRef, useState } from "react";
 import TodoCss from "./todo.module.css";
 import toast from "react-hot-toast";
 
-// Local storage is the storage that browser provides us. It is around 5MB.
-// localStorage.setItem("key",value) :- It is used to store data in browsers storage.
-// value can be any data. for example:- array, object, etc.
-// localStorage.getItem("key") :- it is used to get data from the local storage.
-
 const Todo = () => {
-  // jab hum data store karwate hai toh JSON.stringify() karke karwate hai aur jab hum data read karte hai toh JSON.parse() karke karwate hai.
-  // const taskData = [
-  //   { task: "Buy Bike", complete: true },
-  //   { task: "Buy Iphone", complete: false },
-  //   { task: "Buy Car", complete: true },
-  // ];
 
   const taskData = JSON.parse(localStorage.getItem("todo_task")) || [];
 
   const [allData, setAllData] = useState(taskData);
-  const [toDoTask, setToDoTask] = useState(""); // This useState is to get the input task passed by the user.
+  const [toDoTask, setToDoTask] = useState(""); 
   const [search, setSearch] = useState("");
   const [CTask, setCtask] = useState(0);
   const [RTask, setRtask] = useState(0);
@@ -28,11 +16,10 @@ const Todo = () => {
 
   function handleForm(e) {
     e.preventDefault();
-    const myTask = toDoTask.trim(); // removed spaces
+    const myTask = toDoTask.trim();
     if (!myTask) {
-      toast.error("Please Add Task...✋"); // explore toast
+      toast.error("Please Add Task...✋");
     } else {
-      // some((value,index)=>{}) method is used to compare the values in the array. (Checks if at least one element satisfies the condition. Returns true or false.)
       const isVerified = allData.some((value) => {
         return value.task.toLowerCase() === toDoTask.toLowerCase();
       });
@@ -41,9 +28,9 @@ const Todo = () => {
         toast.error("Task Already Exist...😒");
         setToDoTask("");
       } else {
-        setAllData([...allData, { task: toDoTask, complete: false }]); // yaha spread operator isliye lagaya hai kiyuki bina iske naya task add toh ho jayega par purane wale sare delete ho jayenge.
+        setAllData([...allData, { task: toDoTask, complete: false }]);
         toast.success("Task Added...😃");
-        setToDoTask(""); // this will blank the input:text field after task is added.
+        setToDoTask("");
       }
     }
   }
@@ -69,22 +56,12 @@ const Todo = () => {
     const copyOfAllData = [...allData];
     copyOfAllData[id].complete = !copyOfAllData[id].complete;
     setAllData(copyOfAllData);
-
-    // const completedTask = copyOfAllData.filter((value,index)=>{
-    //   return value.complete
-    // })
-
-    // const remainingTask = copyOfAllData.filter((value,index)=>{
-    //   return !value.complete
-    // })
-    // setCtask(completedTask.length)
-    // setRtask(remainingTask.length)
   }
 
   function handleUpdate(id) {
     const copyOfAllData = [...allData];
     const oldTask = copyOfAllData[id].task;
-    const newTask = prompt(`Update Task :- ${oldTask}`, oldTask); // comma ke baad oldTask likhne se ye prompt wale box me bhi likha hua aayega.
+    const newTask = prompt(`Update Task :- ${oldTask}`, oldTask);
 
     if (newTask === null) {
       toast("Update Cancelled...❌");
@@ -97,7 +74,7 @@ const Todo = () => {
       toast("No Changes Detected...😑");
     }
     const newTaskObj = { task: trimmedTask, complete: false };
-    copyOfAllData.splice(id, 1, newTaskObj); // revise this
+    copyOfAllData.splice(id, 1, newTaskObj);
     setAllData(copyOfAllData);
   }
 
@@ -118,7 +95,6 @@ const Todo = () => {
     });
     setRtask(remainingTask.length);
 
-    // data ko hum directly store nhi karwate hai. hum data ko stringify karke store karwate hai.
     localStorage.setItem("todo_task", JSON.stringify(copyOfAllData));
   }, [allData]);
 
@@ -172,9 +148,6 @@ const Todo = () => {
             />
           </form>
           {
-            // map ka syntax in react :- variable_name.map(()=>())
-            // allData par map na chala ke hum filterTask par map chalayenge kiyu ki ye initial pura data show karega jab tak search box me kuch search nhi kiya jayega par search karne par ke sirf searched value hi show karega
-            // allData.map((items, index) => (
             filterTask.length === 0 ? (
               <h5
                 className="text-center"
@@ -211,7 +184,6 @@ const Todo = () => {
                       handleDelete(index);
                     }}
                   ></i>
-                  {/* The title attribute is an HTML global attribute used to provide additional information about an element.When a user hovers their mouse over the button, most browsers display a tooltip: */}
                   <i
                     className={`bi bi-pencil-square text-success float-end mx-2 ${TodoCss.icons}`}
                     title={"Update"}
